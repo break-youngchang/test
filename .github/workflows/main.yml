@@ -1,71 +1,71 @@
 name: Deploy brg to cloudfront
 
 on:
-    release:
-        types: [created]
+  release:
+    types: [created]
 
 jobs:
-    build:
-        runs-on: ubuntu-18.04
-        steps:
-            - name: Checkout source code. # 레포지토리 체크아웃
-              uses: actions/checkout@v1
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout source code. # 레포지토리 체크아웃
+        uses: actions/checkout@v1
 
-            - name: Cache node modules # node modules 캐싱
-              uses: actions/cache@v1
-              with:
-                  path: node_modules
-                  key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.OS }}-build-
-                      ${{ runner.OS }}-
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
-            - name: Install Dependencies # 의존 파일 설치
-              run: npm install
+      - name: Install Dependencies # 의존 파일 설치
+        run: npm install
 
-            - name: Build # React Build
-              run: CI= npm run build:staging
+      - name: Build # React Build
+        run: CI= npm run build:staging
 
-            - name: Archive production artifacts # upload file
-              uses: actions/upload-artifact@v1
-              with:
-                  name: build # artifact name
-                  path: build # upload path
+      - name: Archive production artifacts # upload file
+        uses: actions/upload-artifact@v1
+        with:
+          name: build # artifact name
+          path: build # upload path
 
-    deploy_KR:
-        needs: build
-        runs-on: ubuntu-18.04
-        steps:
-            - name: Download production artifacts  # download file
-                uses: actions/download-artifact@v1
-                with:
-                  name: build  
-            - name: setup node
-              uses: actions/setup-node@v1
-              with:
-                  node-version: '15.x'
-            - uses: actions/checkout@v2
-            - name: Setup Python
-              uses: actions/setup-python@v1
-              with:
-                  python-version: '3.x'
-        if: startsWith(github.event.release.name, "KR")
-        
-    deploy_TW:
-        needs: build
-        runs-on: ubuntu-18.04
-        steps:
-            - name: Download production artifacts  # download file
-                uses: actions/download-artifact@v1
-                with:
-                  name: build                        # artifact name
-            - name: setup node
-              uses: actions/setup-node@v1
-              with:
-                  node-version: '15.x'
-            - uses: actions/checkout@v2
-            - name: Setup Python
-              uses: actions/setup-python@v1
-              with:
-                  python-version: '3.x'
-        if: startsWith(github.event.release.name, "TW")
+  deploy_KR:
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: build
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "15.x"
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
+    if: startsWith(github.event.release.name, "KR")
+
+  deploy_TW:
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: build # artifact name
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "15.x"
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
+    if: startsWith(github.event.release.name, "TW")

@@ -20,5 +20,5 @@ jobs:
 
       - name: Run a multi-line script
         run: |
-          echo contains('${{ github.event.release.name }}', 'qwe')
+          echo ${{contains(${{ github.event.release.name }}, qwe)}}
           echo test, and deploy your project.

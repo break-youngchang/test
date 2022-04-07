@@ -28,6 +28,7 @@ jobs:
 
   deploy:
     needs: check
+    runs-on: ubuntu-latest
     steps:
       - name: See result
         run: |

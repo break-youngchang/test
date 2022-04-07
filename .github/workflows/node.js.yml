@@ -13,7 +13,7 @@ jobs:
 
       - name: Run a one-line script
         run: |
-        echo "Release result: ${{ job.status }}\n${{ github.repository }}: ${{ github.ref_name }}\nRelease info: ${{ github.event.release.name }}, ${{ github.event.release }} ${{ github.event.payload }}"
+          echo "Release result: ${{ job.status }}\n${{ github.repository }}: ${{ github.ref_name }}\nRelease info: ${{ github.event.release.name }}, ${{ github.event.release }} ${{ github.event.payload }}"
 	
       - name: Run a multi-line script
         run: |

@@ -21,7 +21,7 @@ jobs:
           echo "Release result: ${{ job.status }}\n${{ github.repository }}: ${{ github.ref_name }}\nRelease info: ${{ github.event.release.name }}, ${{ github.event.release }} ${{ github.event.payload }}"
 
       - name: Run a multi-line script
-        run: echo startsWith(github.event.release.name, "qwe")
+        run: echo startsWith(&{{github.event.release.name}}, "qwe")
 
       - name: See result
         run: echo "${{ steps.check_pr_labels.outputs.result}}"

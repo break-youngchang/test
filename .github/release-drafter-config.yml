@@ -6,4 +6,4 @@ template: |
   - 대만 -> [TW] 1.2.3
   #### 예제에 나와있는 양식대로 써주써야 해당 서비스에 맞게 배포 됩니다.
   이후 하시던대로 태그 랑 branch 타겟 지정해서 해당 내용은 지우고 
-  `Auto-generate release notes` 클릭후 생성 하시면 됩니다..
+  `Auto-generate release notes` 클릭후 생성 하시면 됩니다.

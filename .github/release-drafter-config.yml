@@ -1,6 +1,4 @@
-name-template: "[ ]"
-tag-template: "v$NEXT_MINOR_VERSION"
-change-template: "- $TITLE #$NUMBER @$AUTHOR "
+name-template: "[]"
 template: |
   ## release note 작성시에 title 빈 배열 안에 국가 코드를 써주세요!
   ### Example

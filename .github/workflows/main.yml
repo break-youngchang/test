@@ -23,12 +23,13 @@ jobs:
       - name: Install Dependencies # 의존 파일 설치
         run: npm install
 
-      - name: KR_Build # React Build
         if: startsWith(github.event.release.name, '[KR]')
+      - name: KR_Build # React Build
         run: CI= npm run build
-        if: startsWith(github.event.release.name, '[TW]')
-        run: CI= npm run build:tw
 
+        if: startsWith(github.event.release.name, '[KR]')
+      - name: TW_Build # React Build
+        run: CI= npm run build:tw
 
       - name: Archive production artifacts # upload file
         uses: actions/upload-artifact@v1

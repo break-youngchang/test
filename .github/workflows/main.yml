@@ -27,7 +27,7 @@ jobs:
         if: startsWith(github.event.release.name, '[KR]')
 
       - name: TW_Build # React Build
-        run: CI= npm run build:taiwan
+        run: CI= npm run build
         if: startsWith(github.event.release.name, '[TW]')
 
       - name: Archive production artifacts # upload file

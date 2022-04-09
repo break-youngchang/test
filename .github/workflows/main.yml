@@ -67,4 +67,8 @@ jobs:
       - name: ls
         run: |
           ls -la
+      - name: ls
+        run: |
+          cd build
+          ls -la
     if: startsWith(github.event.release.name, '[TW]')

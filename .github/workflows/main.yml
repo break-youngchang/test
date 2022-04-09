@@ -68,6 +68,7 @@ jobs:
       - name: ls
         run: |
           ls -la
+      - uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v1
         with:

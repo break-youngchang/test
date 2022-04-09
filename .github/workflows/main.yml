@@ -64,6 +64,9 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: build # artifact name
+      - name: ls
+        run: |
+          ls -la
       - name: setup node
         uses: actions/setup-node@v1
         with:

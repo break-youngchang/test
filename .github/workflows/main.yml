@@ -2,7 +2,7 @@ name: Deploy brg to cloudfront
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   build:
@@ -19,7 +19,6 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-
       - name: Install Dependencies # 의존 파일 설치
         run: npm install
 
@@ -28,11 +27,11 @@ jobs:
         if: startsWith(github.event.release.name, '[KR]')
 
       - name: TW_Build # React Build
-        run: CI= npm run build:tw
+        run: CI= npm run build:taiwan
         if: startsWith(github.event.release.name, '[TW]')
 
       - name: Archive production artifacts # upload file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         with:
           name: build # artifact name
           path: build # upload path
@@ -45,15 +44,17 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: build
-      - name: setup node
-        uses: actions/setup-node@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          node-version: "15.x"
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: "3.x"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CLOUDFRONT_S3 }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CLOUDFRONT_S3 }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+      - name: Push Contents to S3
+        run: aws s3 sync ./ s3://${{ secrets.S3_BUCKET_NAME }}
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CDN_DISTRIBUTION_ID }} --paths "/*"
     if: startsWith(github.event.release.name, '[KR]')
 
   deploy_TW:
@@ -61,14 +62,28 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Download production artifacts # download file
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: build # artifact name
       - name: ls
         run: |
           ls -la
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
       - name: ls
         run: |
-          cd build
           ls -la
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CLOUDFRONT_S3 }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CLOUDFRONT_S3 }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+      - name: Push Contents to S3
+        run: aws s3 sync build s3://${{ secrets.TW_S3_BUCKET_NAME }}
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.TW_CDN_DISTRIBUTION_ID }} --paths "/*"
     if: startsWith(github.event.release.name, '[TW]')

@@ -39,14 +39,14 @@ jobs:
       - name: Archive production artifacts # upload file
         uses: actions/upload-artifact@v1
         with:
-          name: build # artifact name
+          name: build_kr # artifact name
           path: build # upload path
 
       - name: Archive production artifacts2 # upload file
         uses: actions/upload-artifact@v1
         with:
           name: dist # artifact name
-          path: dist # upload path
+          path: ./ # upload path
 
   deploy_ALL:
     needs: build
@@ -55,7 +55,7 @@ jobs:
       - name: Download production artifacts # download file
         uses: actions/download-artifact@v1
         with:
-          name: build # artifact name
+          name: build_kr # artifact name
       - name: Download production artifacts # download file
         uses: actions/download-artifact@v1
         with:
@@ -65,6 +65,7 @@ jobs:
           ls -la
       - name: ls
         run: |
+          cd dist
           ls -la
     if: startsWith(github.event.release.name, '[ALL]')
 

@@ -23,8 +23,9 @@ jobs:
         run: npm install
 
       - name: TW_Build # React Build
-        run: CI= npm run build
-        run: CI= npm run build:tw
+        run: | 
+          CI= npm run build 
+          CI= npm run build:tw
         if: startsWith(github.event.release.name, '[ALL]')
 
       - name: KR_Build # React Build

@@ -111,27 +111,11 @@ jobs:
       - name: Download production artifacts # download file
         uses: actions/download-artifact@v1
         with:
-          name: build # artifact name
+          name: dist # artifact name
       - name: ls
         run: |
           ls -la
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: "3.x"
       - name: ls
         run: |
+          cd dist
           ls -la
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_CLOUDFRONT_S3 }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_CLOUDFRONT_S3 }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          mask-aws-account-id: true
-      - name: Push Contents to S3
-        run: aws s3 sync build s3://${{ secrets.TW_S3_BUCKET_NAME }}
-      - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.TW_CDN_DISTRIBUTION_ID }} --paths "/*"
-    if: startsWith(github.event.release.name, '[TW]')

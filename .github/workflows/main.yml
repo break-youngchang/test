@@ -25,6 +25,7 @@ jobs:
       - name: TW_Build # React Build
         run: |
           CI= npm run build
+          CI= npm run build:tw
         if: startsWith(github.event.release.name, '[ALL]')
 
       - name: KR_Build # React Build
@@ -39,14 +40,14 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: build_kr # artifact name
-          path: build # upload path
+          path: webapp # upload path
 
       - name: Archive production artifacts2 # upload file
         uses: actions/upload-artifact@v3
         with:
           name: dist # artifact name
           path: |
-            build
+            webapp
             dist
 
   deploy_ALL:
@@ -70,7 +71,7 @@ jobs:
           ls -la
       - name: ls
         run: |
-          cd dist/build
+          cd dist/webapp
           ls -la
       - name: ls
         run: |

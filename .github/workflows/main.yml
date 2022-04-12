@@ -51,8 +51,8 @@ jobs:
         with:
           name: dist # artifact name
           path: |
+            build
             webapp
-            build_tw
 
   deploy_ALL:
     needs: build

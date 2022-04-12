@@ -13,8 +13,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv build ./webapp",
-    "build:tw": "BUILD_PATH='./build_tw' react-scripts build",
+    "build": "react-scripts build ",
+    "build:tw": "react-scripts build && mv build ./webapp",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

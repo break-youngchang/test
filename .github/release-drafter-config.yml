@@ -2,7 +2,7 @@ name-template: "[] $NEXT_PATCH_VERSION"
 template: |
   ## release note 작성시에 title 빈 배열 안에 국가 코드를 써주세요!
   ### Example.
-  - 국내 -> [KR] 1.4.0
+  - 국내 -> [KR] 1.4.0 
   - 대만 -> [TW] 1.2.3
   #### 예제에 나와있는 양식대로 써주써야 해당 서비스에 맞게 배포 됩니다.
   이후 하시던대로 태그 랑 branch 타겟 지정해서 해당 내용은 지우고 

@@ -2,7 +2,7 @@ name: Deploy brg to cloudfront
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build:
@@ -42,22 +42,23 @@ jobs:
           path: build # upload path
           name: dist # artifact name
           path: dist # upload path
-deploy_ALL:
-    needs: build
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Download production artifacts # download file
-        uses: actions/download-artifact@v1
-        with:
-          name: build # artifact name
-          name: dist # artifact name
-      - name: ls
-        run: |
-          ls -la
-      - name: ls
-        run: |
-          ls -la
-    if: startsWith(github.event.release.name, '[ALL]')
+
+  deploy_ALL:
+      needs: build
+      runs-on: ubuntu-18.04
+      steps:
+        - name: Download production artifacts # download file
+          uses: actions/download-artifact@v1
+          with:
+            name: build # artifact name
+            name: dist # artifact name
+        - name: ls
+          run: |
+            ls -la
+        - name: ls
+          run: |
+            ls -la
+      if: startsWith(github.event.release.name, '[ALL]')
 
   deploy_KR:
     needs: build

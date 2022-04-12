@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: TW_Build # React Build
-        run: | 
+        run: |
           CI= npm run build 
           CI= npm run build:tw
         if: startsWith(github.event.release.name, '[ALL]')
@@ -49,21 +49,24 @@ jobs:
           path: dist # upload path
 
   deploy_ALL:
-      needs: build
-      runs-on: ubuntu-18.04
-      steps:
-        - name: Download production artifacts # download file
-          uses: actions/download-artifact@v1
-          with:
-            name: build # artifact name
-            name: dist # artifact name
-        - name: ls
-          run: |
-            ls -la
-        - name: ls
-          run: |
-            ls -la
-      if: startsWith(github.event.release.name, '[ALL]')
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: build # artifact name
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: dist # artifact name
+      - name: ls
+        run: |
+          ls -la
+      - name: ls
+        run: |
+          ls -la
+    if: startsWith(github.event.release.name, '[ALL]')
 
   deploy_KR:
     needs: build

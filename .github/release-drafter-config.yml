@@ -1,4 +1,4 @@
-name-template: "[] $NEXT_PATCH_VERSION"
+name-template: "[ALL] $NEXT_PATCH_VERSION"
 tag-template: "v$NEXT_PATCH_VERSION"
 template: |
   ## release note 작성시에 title 빈 배열 안에 국가 코드를 써주세요!

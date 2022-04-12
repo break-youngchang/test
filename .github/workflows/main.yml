@@ -41,6 +41,9 @@ jobs:
         with:
           name: build # artifact name
           path: build # upload path
+
+      - name: Archive production artifacts2 # upload file
+        uses: actions/upload-artifact@v1
           name: dist # artifact name
           path: dist # upload path
 

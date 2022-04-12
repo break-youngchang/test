@@ -44,6 +44,7 @@ jobs:
 
       - name: Archive production artifacts2 # upload file
         uses: actions/upload-artifact@v1
+        with:
           name: dist # artifact name
           path: dist # upload path
 

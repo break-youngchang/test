@@ -22,6 +22,11 @@ jobs:
       - name: Install Dependencies # 의존 파일 설치
         run: npm install
 
+      - name: TW_Build # React Build
+        run: CI= npm run build
+        run: CI= npm run build:tw
+        if: startsWith(github.event.release.name, '[ALL]')
+
       - name: KR_Build # React Build
         run: CI= npm run build
         if: startsWith(github.event.release.name, '[KR]')
@@ -35,6 +40,24 @@ jobs:
         with:
           name: build # artifact name
           path: build # upload path
+          name: dist # artifact name
+          path: dist # upload path
+deploy_ALL:
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download production artifacts # download file
+        uses: actions/download-artifact@v1
+        with:
+          name: build # artifact name
+          name: dist # artifact name
+      - name: ls
+        run: |
+          ls -la
+      - name: ls
+        run: |
+          ls -la
+    if: startsWith(github.event.release.name, '[ALL]')
 
   deploy_KR:
     needs: build

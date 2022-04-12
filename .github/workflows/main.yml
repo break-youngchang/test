@@ -43,10 +43,12 @@ jobs:
           path: build # upload path
 
       - name: Archive production artifacts2 # upload file
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: dist # artifact name
-          path: ./ # upload path
+          path: |
+            build
+            dist
 
   deploy_ALL:
     needs: build

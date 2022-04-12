@@ -25,11 +25,12 @@ jobs:
       - name: ALL_Build # React Build
         run: |
           CI= npm run build:tw
-        if: startsWith(github.event.release.name, '[ALL]')
-      - name: ALL_Build # React Build
-        run: |
           CI= npm run build
         if: startsWith(github.event.release.name, '[ALL]')
+      # - name: ALL_Build # React Build
+      #   run: |
+      #     CI= npm run build
+      #   if: startsWith(github.event.release.name, '[ALL]')
 
       - name: KR_Build # React Build
         run: CI= npm run build

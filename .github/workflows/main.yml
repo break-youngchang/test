@@ -22,9 +22,12 @@ jobs:
       - name: Install Dependencies # 의존 파일 설치
         run: npm install
 
-      - name: TW_Build # React Build
+      - name: ALL_Build # React Build
         run: |
           CI= npm run build
+        if: startsWith(github.event.release.name, '[ALL]')
+      - name: ALL_Build # React Build
+        run: |
           CI= npm run build:tw
         if: startsWith(github.event.release.name, '[ALL]')
 
